@@ -4,8 +4,8 @@
 #include <chrono>
 #include <numeric>
 #include <algorithm>
-#include <random>     // For random number generation for pointer chasing
-#include <sched.h>    // For CPU affinity functions
+#include <random> 
+#include <sched.h>   
 #include <pthread.h>  
 #include <unistd.h>   
 #include <thread>
@@ -20,7 +20,7 @@ void consume_value(volatile int& val) {
 
 // Function to fill array with shuffled indices for pointer chasing
 void fill_random_indices(std::vector<int>& arr) {
-    std::iota(arr.begin(), arr.end(), 0); // Fill with 0, 1, 2, ...
+    std::iota(arr.begin(), arr.end(), 0);
     std::random_device rd;
     std::mt19937 g(rd());
     std::shuffle(arr.begin(), arr.end(), g);
@@ -33,13 +33,13 @@ void flush_caches(size_t ram_size_bytes) {
     for (size_t i = 0; i < large_array.size(); i += CACHE_LINE_SIZE) {
         large_array[i] = (char)(i % 256);
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // C++11 way
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
 
 int main() {
     // --- CPU Pinning ---
-    int core_to_pin = 0; // Pin to CPU core 0
+    const int core_to_pin = 0;
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
     CPU_SET(core_to_pin, &cpuset);
@@ -51,18 +51,17 @@ int main() {
         std::cout << "Successfully pinned process to core " << core_to_pin << std::endl;
     }
 
-    // --- Cache Size Estimates (Adjust for your L480's exact CPU) ---
-    // These are *typical* sizes for Kaby Lake R U-series processors
+    // --- Cache Size Estimates
     const size_t L1_D_CACHE_SIZE_BYTES = 32 * 1024;  // L1 Data Cache
     const size_t L2_CACHE_SIZE_BYTES   = 256 * 1024; // L2 Unified Cache (per core)
-    const size_t L3_CACHE_SIZE_BYTES   = 6 * 1024 * 1024; // L3 Shared Cache (e.g., for i7-8550U)
+    const size_t L3_CACHE_SIZE_BYTES   = 6 * 1024 * 1024; // L3 Shared Cache (for i7-8550U)
 
 
     // --- Test Parameters ---
-    const long long NUM_ACCESSES_L1  = 50000000; // More for faster levels
+    const long long NUM_ACCESSES_L1  = 50000000;
     const long long NUM_ACCESSES_L2  = 20000000;
     const long long NUM_ACCESSES_L3  = 5000000;
-    const long long NUM_ACCESSES_RAM = 1000000;  // Fewer for slower levels
+    const long long NUM_ACCESSES_RAM = 1000000;  
 
     // Array sizes for pointer chasing. Elements are 'int' (4 bytes).
     // Ensure array is slightly *smaller* than the cache level to guarantee hits.
@@ -91,27 +90,32 @@ int main() {
     const double BYTES_TO_GB = 1.0 / (1024.0 * 1024.0 * 1024.0);
 
     // 1. L1 Hit Latency & Throughput
-    flush_caches(L3_CACHE_SIZE_BYTES * 2); // Attempt to clear caches before each major test
-    current_index = 0; // Reset starting index for test
+    flush_caches(L3_CACHE_SIZE_BYTES * 2);
+    current_index = 0;
     auto start_l1 = std::chrono::high_resolution_clock::now();
+
     for (long long i = 0; i < NUM_ACCESSES_L1; ++i) {
         current_index = data_l1[current_index % L1_ARRAY_ELEMENTS]; // Use modulo for safety/wrap-around
     }
+
     auto end_l1 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::nano> duration_l1 = end_l1 - start_l1;
     double l1_latency_ns = duration_l1.count() / NUM_ACCESSES_L1;
-    double l1_throughput_gbps = (NUM_ACCESSES_L1 * INT_SIZE_BYTES) / duration_l1.count() * 1000.0; // ns to s, then convert bytes to GB
+    // ns to s, then convert bytes to GB
+    double l1_throughput_gbps = (NUM_ACCESSES_L1 * INT_SIZE_BYTES) / duration_l1.count() * 1000.0;
     std::cout << "L1 Hit Latency (per int, pointer chase): " << l1_latency_ns << " ns" << std::endl;
     std::cout << "L1 Throughput: " << l1_throughput_gbps << " GB/s" << std::endl;
-    consume_value(current_index); // Ensure 'current_index' is used
+    consume_value(current_index);
 
     // 2. L2 Hit Latency & Throughput
     flush_caches(L3_CACHE_SIZE_BYTES * 2);
     current_index = 0;
     auto start_l2 = std::chrono::high_resolution_clock::now();
+
     for (long long i = 0; i < NUM_ACCESSES_L2; ++i) {
         current_index = data_l2[current_index % L2_ARRAY_ELEMENTS];
     }
+
     auto end_l2 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::nano> duration_l2 = end_l2 - start_l2;
     double l2_latency_ns = duration_l2.count() / NUM_ACCESSES_L2;
@@ -124,9 +128,11 @@ int main() {
     flush_caches(L3_CACHE_SIZE_BYTES * 2);
     current_index = 0;
     auto start_l3 = std::chrono::high_resolution_clock::now();
+
     for (long long i = 0; i < NUM_ACCESSES_L3; ++i) {
         current_index = data_l3[current_index % L3_ARRAY_ELEMENTS];
     }
+
     auto end_l3 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::nano> duration_l3 = end_l3 - start_l3;
     double l3_latency_ns = duration_l3.count() / NUM_ACCESSES_L3;
@@ -139,9 +145,11 @@ int main() {
     flush_caches(L3_CACHE_SIZE_BYTES * 2);
     current_index = 0;
     auto start_ram = std::chrono::high_resolution_clock::now();
+
     for (long long i = 0; i < NUM_ACCESSES_RAM; ++i) {
         current_index = data_ram[current_index % RAM_ARRAY_ELEMENTS];
     }
+
     auto end_ram = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::nano> duration_ram = end_ram - start_ram;
     double ram_latency_ns = duration_ram.count() / NUM_ACCESSES_RAM;

@@ -28,7 +28,6 @@ public:
         : pid(id), state(ProcessState::READY), burst_time(burst),
           remaining_time(burst), pc(0), base(0), bound(2048), // Example: 2 KB bound
           arrival_time(arrival), completion_time(0), waiting_time(0) {
-        // Set random base address (e.g., 28,672 for stack-like segment)
         base = 16384 + (rand() % 16384); // Random base in 16 KB range
     }
 
@@ -65,12 +64,12 @@ public:
 
     // Save process state (context switch)
     void save_state(Process& proc) {
-        // Save PC and base/bound (placeholder)
+        //TODO: Save PC and base/bound (placeholder)
     }
 
     // Restore process state
     void restore_state(const Process& proc) {
-        // Restore PC and base/bound (placeholder)
+        //TODO: Restore PC and base/bound (placeholder)
     }
 };
 
