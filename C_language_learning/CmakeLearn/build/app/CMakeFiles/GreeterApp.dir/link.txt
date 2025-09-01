@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/GreeterApp.dir/src/main.cpp.o -o GreeterApp  ../greeter/libGreeterLib.a 

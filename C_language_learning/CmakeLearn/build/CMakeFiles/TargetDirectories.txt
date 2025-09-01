@@ -1,0 +1,8 @@
+/home/pc/Documents/OS-project/C_language_learning/CmakeLearn/build/CMakeFiles/edit_cache.dir
+/home/pc/Documents/OS-project/C_language_learning/CmakeLearn/build/CMakeFiles/rebuild_cache.dir
+/home/pc/Documents/OS-project/C_language_learning/CmakeLearn/build/greeter/CMakeFiles/GreeterLib.dir
+/home/pc/Documents/OS-project/C_language_learning/CmakeLearn/build/greeter/CMakeFiles/edit_cache.dir
+/home/pc/Documents/OS-project/C_language_learning/CmakeLearn/build/greeter/CMakeFiles/rebuild_cache.dir
+/home/pc/Documents/OS-project/C_language_learning/CmakeLearn/build/app/CMakeFiles/GreeterApp.dir
+/home/pc/Documents/OS-project/C_language_learning/CmakeLearn/build/app/CMakeFiles/edit_cache.dir
+/home/pc/Documents/OS-project/C_language_learning/CmakeLearn/build/app/CMakeFiles/rebuild_cache.dir
