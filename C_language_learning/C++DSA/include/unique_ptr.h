@@ -1,8 +1,8 @@
-#include <concepts>
+
 #include <utility>
 #include <stdexcept>
 
-namespace dev
+namespace getcracked 
 {
     template <typename T>
     struct custom_deleter
@@ -13,12 +13,12 @@ namespace dev
         }
     };
 
-    template <typename T>
+    template <typename T, typename custom_deleter = custom_deleter<T>>
     class unique_ptr
     {
     public:
-        unique_ptr() : m_pointer(nullptr){ }
-        explicit unique_ptr(T* pointer) : m_pointer(pointer) {}
+        unique_ptr(): m_pointer(nullptr){}
+        unique_ptr(T* pointer): m_pointer(pointer){}
 
         unique_ptr(const unique_ptr&) = delete;
         unique_ptr& operator=(const unique_ptr&) = delete;
@@ -38,32 +38,29 @@ namespace dev
 
         ~unique_ptr()
         {
-            custom_deleter<T> deleter;
-            deleter(m_pointer);
+            m_deleter(m_pointer);
         }
 
-        [[nodiscard]]T* release()
+        T* release()
         {
             return std::exchange(m_pointer, nullptr);
         }
 
-        void reset(T* pointer = nullptr)
+        void reset(T* pointer)
         {
-            T* old_pointer = m_pointer;
-            if(old_pointer){
-                custom_deleter<T> deleter;
-                deleter(old_pointer);
+            if(m_pointer){
+                m_deleter(m_pointer);
             }
             m_pointer = pointer;
         }
 
-        T& operator*() const { return *m_pointer;}
-        T* operator->() const { return m_pointer;}
-        operator bool() const { return is_owning();}
+
+        T& operator*() const {return &m_pointer; }
+        T* operator->() const {return m_pointer; }
+        operator bool() const {return m_pointer != nullptr;}
+
     private:
         T* m_pointer;
-        void stealfrom(unique_ptr&&other){
-            m_pointer = std::exchange(other.pointer, nullptr);
-        }
+        custom_deleter m_deleter;
     };
 }
