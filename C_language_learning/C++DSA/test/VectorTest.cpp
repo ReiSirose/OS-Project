@@ -1,6 +1,7 @@
-#include "vector.h"
+#include "../include/vector.h"
 #include <gtest/gtest.h>
 
+using namespace dev;
 struct AllocCounter
 {
   int value;
