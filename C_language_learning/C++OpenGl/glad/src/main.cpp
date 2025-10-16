@@ -14,8 +14,8 @@ void processInput(GLFWwindow *window);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-constexpr char VERTEX_SHADER_PATH []= "../src/vertexShader.vs";
-constexpr char FRAGMENT_SHADER_PATH [] = "../src/fragmentShader.fs"; 
+constexpr char VERTEX_SHADER_PATH []= "../src/vertexShader.vert";
+constexpr char FRAGMENT_SHADER_PATH [] = "../src/fragmentShader.frag"; 
 constexpr char TEXTURE_FILE_PATH [] = "../src/container.jpg";
 constexpr char TEXTURE_FILE_PATH2 [] = "../src/awesomeface.png";
 
