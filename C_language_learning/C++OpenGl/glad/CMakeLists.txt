@@ -14,13 +14,13 @@ find_path(GLFW_INCLUDE_DIR NAMES GLFW/glfw3.h)
 
 find_library(GLFW_LIBRARY NAMES glfw)
 
+add_executable(opengl_test src/main.cpp src/glad.c src/shader.cpp)
+
 # Add our 'include' and 'GLFW_INCLUDE_DIR' get from previous line
-include_directories(
+target_include_directories(opengl_test PRIVATE
     include
     ${GLFW_INCLUDE_DIR}
 )
-
-add_executable(opengl_test src/main.cpp src/glad.c)
 
 # Link the executable against the libraries it needs.
 # 'glfw' and 'OpenGL::GL' are targets provided by find_package.
