@@ -1,26 +1,31 @@
 #include <iostream>
-class Singleton
-{
-private:
-    static Singleton s_instance;
-    Singleton()
-    {
-        std::cout << "instance instantiate" << std::endl;
-    }
-    
 
-public:
-    Singleton(const Singleton &instance) = delete;
-    Singleton &operator=(const Singleton &instance) = delete;
-    static Singleton& Get()
-    {
-        return s_instance;
-    }
-    void Function(){std::cout << "singleton function" << std::endl;}
+class Singleton final{
+    private:
+        Singleton() {};
+        ~Singleton() {}
+
+    public:
+        Singleton(const Singleton&) = delete;
+        Singleton& operator=(const Singleton&) = delete;
+
+        Singleton(Singleton&& ) = delete;
+        Singleton& operator=(Singleton&&) = delete;
+
+        static Singleton& create() { 
+            static Singleton singleton;
+            return singleton;
+        }
+
+         void doSomething () {
+            std::cout << "Hello" << std::endl;
+        }
 };
-Singleton Singleton::s_instance;
 
-int main()
-{
-    Singleton::Get().Function();
+
+
+int main () {
+    Singleton& ref = Singleton::create();
+    ref.doSomething();
+    return 0;
 }

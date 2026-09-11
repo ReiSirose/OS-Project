@@ -1,0 +1,30 @@
+[==========] Running 11 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 11 tests from VectorTest
+[ RUN      ] VectorTest.DefaultConstructor
+[       OK ] VectorTest.DefaultConstructor (0 ms)
+[ RUN      ] VectorTest.InitializerListTest
+[       OK ] VectorTest.InitializerListTest (0 ms)
+[ RUN      ] VectorTest.ParametrizedConstructorTest
+[       OK ] VectorTest.ParametrizedConstructorTest (0 ms)
+[ RUN      ] VectorTest.CopyConstructorTest
+[       OK ] VectorTest.CopyConstructorTest (0 ms)
+[ RUN      ] VectorTest.CopyAssignementTest
+[       OK ] VectorTest.CopyAssignementTest (0 ms)
+[ RUN      ] VectorTest.MoveConstructorTest
+[       OK ] VectorTest.MoveConstructorTest (0 ms)
+[ RUN      ] VectorTest.MoveAssignmentTest
+[       OK ] VectorTest.MoveAssignmentTest (0 ms)
+[ RUN      ] VectorTest.AccessorsAndExceptionTest
+[       OK ] VectorTest.AccessorsAndExceptionTest (0 ms)
+[ RUN      ] VectorTest.PushBackAndEmplaceBackTest
+[       OK ] VectorTest.PushBackAndEmplaceBackTest (0 ms)
+[ RUN      ] VectorTest.PopBackAndClearTest
+[       OK ] VectorTest.PopBackAndClearTest (0 ms)
+[ RUN      ] VectorTest.MemoryManagementTest
+[       OK ] VectorTest.MemoryManagementTest (0 ms)
+[----------] 11 tests from VectorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 11 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 11 tests.
