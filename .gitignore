@@ -1,7 +1,7 @@
 .vscode/
 build/
 *.dSYM/
-C++knowledge/llvm/
+C_language_learning/C++knowledge/llvm/
 
 *.DS_Store
 *.o
